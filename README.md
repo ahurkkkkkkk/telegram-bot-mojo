@@ -6,6 +6,61 @@ the upstream Python package at runtime. The source reference is the v22.8
 upstream distribution, and `PORT_STATUS.csv` tracks every `.py` file under its
 `src/telegram/` package against the corresponding `.mojo` file.
 
+## Status, potential, and performance hypotheses
+
+Technical visuals and the assumptions behind them are in [the performance model and target data path](docs/technical-performance-model.md):
+
+![Amdahl's law sensitivity model for hypothetical native Mojo speedups](docs/assets/amdahl-sensitivity.svg)
+
+![Current source-module port ledger](docs/assets/port-ledger.svg)
+
+![Target native Mojo update-to-handler data path](docs/assets/target-dataflow.svg)
+
+The project goal is a **native Mojo port of python-telegram-bot v22.8 with no
+Python bridge**, eventually covering the complete public client, model, request,
+and extension behavior. This is a goal, not a claim that parity has been reached.
+
+The source ledger currently tracks 233 upstream modules: 9 complete, 199 in
+progress, and 25 not started. Existing work includes a large set of native Bot
+API models and method wrappers, libcurl request transport, OpenSSL Passport
+decryption, PCRE2-backed regex predicates, and partial extension handlers and
+filters. Those pieces have focused tests, but overall compatibility is not
+certified.
+
+### Potential outcomes
+
+If the port reaches parity, it could provide a compiled Telegram Bot API client
+without a CPython runtime dependency. Native execution could reduce interpreter
+overhead in CPU-heavy model decoding and filter evaluation. Network-bound Bot
+API calls would still be governed mostly by Telegram and network latency.
+
+The following numbers are **hypothetical planning ranges, not measurements or
+promises**:
+
+| Workload | Hypothetical target vs. CPython PTB |
+| --- | ---: |
+| Decode and inspect small Update JSON | 1.2–2.5× throughput |
+| Evaluate simple composed message filters | 1.5–4× throughput |
+| Idle client memory | Measure first; no defensible target yet |
+| End-to-end Bot API request latency | Likely similar on the same network |
+
+These estimates need a parity-matched benchmark suite with identical inputs,
+dependencies, hardware, compiler versions, and repeated runs. No benchmark
+results are published yet.
+
+### Major remaining work
+
+- Complete `Application`, `ApplicationBuilder`, async update dispatch, callback
+  invocation, and `CallbackContext` behavior.
+- Port persistence, updater, job queue, rate limiters, conversation handling,
+  and the remaining extension classes.
+- Finish every model and Bot method, including exact defaults, timeouts,
+  timezone, Bot association, serialization, identity, and error behavior.
+- Preserve regex Match results and data-filter context propagation, then close
+  the remaining filter families and constructor forms.
+- Expand upstream-derived runtime tests and establish measured performance
+  baselines before making any speed or memory claims.
+
 ## Port coverage
 
 The upstream package contains 233 Python files and 88,746 source lines. The
@@ -487,60 +542,7 @@ verifies the native slice only; whole-library parity remains open.
 
 The development workspace has static private-key PEM fixtures in `tests/test_passport_crypto.mojo` and `tests/fixtures/passport_test_key_encrypted.pem`. The initial public snapshot omits those two test-only files until they can be replaced with ephemeral key generation. The crypto implementation remains under `src/`, and the omitted test is not part of `tests/run_all.sh`. No private-key PEM or bot-token pattern was found under `src/` during the release scan.
 
-## Completion goal and benchmark hypotheses
-
-Technical visuals and the assumptions behind them are in [the performance model and target data path](docs/technical-performance-model.md):
-
-![Amdahl's law sensitivity model for hypothetical native Mojo speedups](docs/assets/amdahl-sensitivity.svg)
-
-![Current source-module port ledger](docs/assets/port-ledger.svg)
-
-![Target native Mojo update-to-handler data path](docs/assets/target-dataflow.svg)
-
-The project goal is a **native Mojo port of python-telegram-bot v22.8 with no
-Python bridge**, eventually covering the complete public client, model, request,
-and extension behavior. This is a goal, not a claim that parity has been reached.
-
-The source ledger currently tracks 233 upstream modules: 9 complete, 199 in
-progress, and 25 not started. Existing work includes a large set of native Bot
-API models and method wrappers, libcurl request transport, OpenSSL Passport
-decryption, PCRE2-backed regex predicates, and partial extension handlers and
-filters. Those pieces have focused tests, but overall compatibility is not
-certified.
-
-### Potential outcomes
-
-If the port reaches parity, it could provide a compiled Telegram Bot API client
-without a CPython runtime dependency. Native execution could reduce interpreter
-overhead in CPU-heavy model decoding and filter evaluation. Network-bound Bot
-API calls would still be governed mostly by Telegram and network latency.
-
-The following numbers are **hypothetical planning ranges, not measurements or
-promises**:
-
-| Workload | Hypothetical target vs. CPython PTB |
-| --- | ---: |
-| Decode and inspect small Update JSON | 1.2–2.5× throughput |
-| Evaluate simple composed message filters | 1.5–4× throughput |
-| Idle client memory | Measure first; no defensible target yet |
-| End-to-end Bot API request latency | Likely similar on the same network |
-
-These estimates need a parity-matched benchmark suite with identical inputs,
-dependencies, hardware, compiler versions, and repeated runs. No benchmark
-results are published yet.
-
-### Major remaining work
-
-- Complete `Application`, `ApplicationBuilder`, async update dispatch, callback
-  invocation, and `CallbackContext` behavior.
-- Port persistence, updater, job queue, rate limiters, conversation handling,
-  and the remaining extension classes.
-- Finish every model and Bot method, including exact defaults, timeouts,
-  timezone, Bot association, serialization, identity, and error behavior.
-- Preserve regex Match results and data-filter context propagation, then close
-  the remaining filter families and constructor forms.
-- Expand upstream-derived runtime tests and establish measured performance
-  baselines before making any speed or memory claims.
+## Additional implementation notes
 
 `tests/test_filters.mojo` checks native filter-expression serialization,
 composition names, AND/OR/XOR/inversion, and representative `StatusUpdate`
