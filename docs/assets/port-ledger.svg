@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="330" viewBox="0 0 1040 330" role="img" aria-labelledby="title desc">
+  <title id="title">Mojo port source-module ledger</title>
+  <desc id="desc">Inventory of 233 upstream modules: 9 complete, 199 in progress, and 25 not started. In progress does not mean behavior parity.</desc>
+  <rect width="1040" height="330" fill="#0b1220" rx="20"/>
+  <text x="64" y="54" fill="#f8fafc" font-family="Segoe UI, Arial, sans-serif" font-size="26" font-weight="700">Port ledger · 233 source modules</text>
+  <text x="64" y="82" fill="#94a3b8" font-family="Segoe UI, Arial, sans-serif" font-size="15">Inventory count only — started modules are not necessarily feature-complete or behavior-compatible</text>
+  <rect x="64" y="123" width="912" height="46" rx="10" fill="#1e293b"/>
+  <path d="M74 123 H99.2 V169 H74 Q64 169 64 159 V133 Q64 123 74 123Z" fill="#34d399"/>
+  <rect x="99.2" y="123" width="778.3" height="46" fill="#38bdf8"/>
+  <path d="M877.5 123 H966 Q976 123 976 133 V159 Q976 169 966 169 H877.5Z" fill="#64748b"/>
+  <g font-family="Segoe UI, Arial, sans-serif">
+    <circle cx="76" cy="222" r="7" fill="#34d399"/><text x="95" y="228" fill="#e2e8f0" font-size="18" font-weight="600">9 complete</text><text x="95" y="252" fill="#94a3b8" font-size="14">3.9% of inventory</text>
+    <circle cx="374" cy="222" r="7" fill="#38bdf8"/><text x="393" y="228" fill="#e2e8f0" font-size="18" font-weight="600">199 in progress</text><text x="393" y="252" fill="#94a3b8" font-size="14">85.4% of inventory</text>
+    <circle cx="716" cy="222" r="7" fill="#64748b"/><text x="735" y="228" fill="#e2e8f0" font-size="18" font-weight="600">25 not started</text><text x="735" y="252" fill="#94a3b8" font-size="14">10.7% of inventory</text>
+  </g>
+  <text x="64" y="300" fill="#64748b" font-family="Segoe UI, Arial, sans-serif" font-size="13">Derived from PORT_STATUS.csv snapshot. Update this graphic when the ledger changes.</text>
+</svg>

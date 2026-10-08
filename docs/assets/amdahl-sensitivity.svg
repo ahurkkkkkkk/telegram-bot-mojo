@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="620" viewBox="0 0 1040 620" role="img" aria-labelledby="title desc">
+  <title id="title">Amdahl's law sensitivity model</title>
+  <desc id="desc">Hypothetical end-to-end speedup as the fraction of baseline time spent in accelerated CPU work increases. Curves assume the CPU work is two or four times faster. These are model outputs, not measurements.</desc>
+  <rect width="1040" height="620" fill="#0b1220" rx="20"/>
+  <text x="78" y="58" fill="#f8fafc" font-family="Segoe UI, Arial, sans-serif" font-size="27" font-weight="700">Amdahl sensitivity: end-to-end speedup ceiling</text>
+  <text x="78" y="87" fill="#94a3b8" font-family="Segoe UI, Arial, sans-serif" font-size="15">Hypothetical model only · CPU section accelerated by 2× or 4× · network and all other work unchanged</text>
+  <g stroke="#263449" stroke-width="1">
+    <line x1="120" y1="500" x2="920" y2="500"/><line x1="120" y1="401" x2="920" y2="401"/><line x1="120" y1="302" x2="920" y2="302"/><line x1="120" y1="203" x2="920" y2="203"/><line x1="120" y1="104" x2="920" y2="104"/>
+    <line x1="120" y1="104" x2="120" y2="500"/><line x1="320" y1="104" x2="320" y2="500"/><line x1="520" y1="104" x2="520" y2="500"/><line x1="720" y1="104" x2="720" y2="500"/><line x1="920" y1="104" x2="920" y2="500"/>
+  </g>
+  <g fill="#a9b6c9" font-family="Segoe UI, Arial, sans-serif" font-size="14" text-anchor="end">
+    <text x="106" y="505">1.0×</text><text x="106" y="406">1.75×</text><text x="106" y="307">2.5×</text><text x="106" y="208">3.25×</text><text x="106" y="109">4.0×</text>
+  </g>
+  <g fill="#a9b6c9" font-family="Segoe UI, Arial, sans-serif" font-size="14" text-anchor="middle">
+    <text x="120" y="526">0%</text><text x="320" y="526">25%</text><text x="520" y="526">50%</text><text x="720" y="526">75%</text><text x="920" y="526">100%</text>
+    <text x="520" y="562" font-size="15">Baseline time spent in the CPU portion being optimized</text>
+  </g>
+  <text transform="translate(34 314) rotate(-90)" fill="#a9b6c9" font-family="Segoe UI, Arial, sans-serif" font-size="15" text-anchor="middle">End-to-end speedup over Python baseline</text>
+  <line x1="120" y1="500" x2="920" y2="500" stroke="#34d399" stroke-width="2" stroke-dasharray="7 7"/>
+  <path d="M120 500 L320 481.1 L520 456 L720 420.8 L920 368" fill="none" stroke="#38bdf8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M120 500 L320 469.5 L520 420.8 L720 330.6 L920 104" fill="none" stroke="#fb923c" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <g font-family="Segoe UI, Arial, sans-serif" font-size="14">
+    <line x1="617" y1="585" x2="650" y2="585" stroke="#34d399" stroke-width="2" stroke-dasharray="7 7"/><text x="658" y="590" fill="#dbeafe">1× baseline</text>
+    <line x1="748" y1="585" x2="781" y2="585" stroke="#38bdf8" stroke-width="4"/><text x="789" y="590" fill="#dbeafe">CPU 2×</text>
+    <line x1="866" y1="585" x2="899" y2="585" stroke="#fb923c" stroke-width="4"/><text x="907" y="590" fill="#dbeafe">CPU 4×</text>
+  </g>
+  <text x="78" y="602" fill="#64748b" font-family="Segoe UI, Arial, sans-serif" font-size="12">Model: S = 1 / ((1 − p) + p / s). Chart bounds shown to 4×; 4× curve reaches 4× at p = 100%.</text>
+</svg>
